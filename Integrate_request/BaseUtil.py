@@ -5,7 +5,7 @@ import requests
 import json
 
 
-class IntegrateRequest:
+class IntegrateRequest(object):
     # 请求 request方法
     def get_req(self, url, data=None, headers=None):
         if headers is not None:

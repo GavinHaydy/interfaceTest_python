@@ -6,11 +6,20 @@ python+jenkins持续集成模板
   
  # 目录说明
  ```
-BasicVersion
-    基础用法
-
-requirements.txt
-    依赖库 安装方法 pip install -r requirements.txt
+.
+├─ BasicVersion 
+│    └─ baseic.py   # 基础用法
+├─ Integrate_request
+│    └─ BaseUtil.py  # 整合常用的请求方法
+├─ README.md    
+├─ Report
+│    └─ 存放测试报告的地方
+├─ TestCases
+│    ├─ __pycache__
+│    │    └─ test.cpython-37.pyc
+│    └─ test.py # 例子
+├─ requirements.txt
+└─ run.py # 运行文件
 ```
 
  

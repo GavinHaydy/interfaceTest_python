@@ -7,8 +7,7 @@ from unittest import skip
 url = 'http://106.13.171.218'  # 域名
 register_api = '/api/user/register'  # 注册接口   post
 login_api = '/api/user/login'  # 登录接口 post
-allUser = '/api/user'  # 获取所有用户 get
-getUserByPhone = '/api/user/'  # 根据手机号查用户 get
+searchUser = '/api/user/list'  # 获取所有用户 get
 updateUser = '/api/user/'  # 修改用户信息    put
 delUser = '/api/user/delete/'  # 删除用户  delete
 header = {'Content-Type': 'application/json',
@@ -26,4 +25,16 @@ class Test(unittest.TestCase):
              'email': str(phone) + '@qq.com'}), headers=header)
         self.assertIn('恭喜你注册成功', s.json()['msg'], msg=s.json())
         print(s.json())
+
+    def test_search_case(self):
+        for i in range(100):
+            s = res.main('post', url=url+searchUser, data=json.dumps(
+                {'pageSize': 15, 'pageNo': 1, 'search': {
+                    'phone': random.randint(1, 100)}}), headers={
+                    'Content-type': 'application/json', 'authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjE3MzgwNjI0OTY4IiwibWQ1UGFzc3dvcmQiOiIxNGUxYjYwMGIxZmQ1NzlmNDc0MzNiODhlOGQ4NTI5MSIsImV4cCI6MTYyMzY0ODc1M30.c9iQQmSKYqE3JAubinINgQVhhWKrKqcvkNheTMFyWeM'
+                })
+            self.assertEqual(200, s.json()['code'], msg=s.json())
+            print(s.json())
+
+
 

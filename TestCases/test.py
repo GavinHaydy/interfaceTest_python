@@ -20,21 +20,29 @@ res = Util()
 class Test(unittest.TestCase):
     # 注册
     def test_register_case(self):
-        s = res.main('post', url=url+register_api, data=json.dumps(
-            {'username': str(phone), 'phone': str(phone), 'sex': '男', 'password': 'e10adc3949ba59abbe56e057f20f883e',
+        s = res.main('post', url=url + register_api, data=json.dumps(
+            {'username': str(phone), 'phone': str(phone), 'gender': '男', 'password': 'e10adc3949ba59abbe56e057f20f883e',
              'email': str(phone) + '@qq.com'}), headers=header)
         self.assertIn('恭喜你注册成功', s.json()['msg'], msg=s.json())
-        print(s.json())
+        print(phone, s.json())
+
+    def test_login_case(self):
+        s = res.main('post', url=url + login_api, data=json.dumps(
+            {'phone': str(phone), 'password': 'e10adc3949ba59abbe56e057f20f883e'}),
+                     headers=header)
+        self.assertIn('登录成功', s.json()['msg'], msg=s.json())
+        print(phone, s.json())
 
     def test_search_case(self):
-        for i in range(100):
-            s = res.main('post', url=url+searchUser, data=json.dumps(
+        s = res.main('post', url=url + login_api, data=json.dumps(
+            {'phone': str(phone), 'password': 'e10adc3949ba59abbe56e057f20f883e'}),
+                     headers=header)
+        token = s.json()['token']
+        for i in range(10):
+            phone1 = random.randint(18888888700, 18888888800)
+            s = res.main('post', url=url + searchUser, data=json.dumps(
                 {'pageSize': 15, 'pageNo': 1, 'search': {
-                    'phone': random.randint(1, 100)}}), headers={
-                    'Content-type': 'application/json', 'authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjE3MzgwNjI0OTY4IiwibWQ1UGFzc3dvcmQiOiIxNGUxYjYwMGIxZmQ1NzlmNDc0MzNiODhlOGQ4NTI5MSIsImV4cCI6MTYyMzY0ODc1M30.c9iQQmSKYqE3JAubinINgQVhhWKrKqcvkNheTMFyWeM'
-                })
+                    'phone': phone1}}), headers={
+                'Content-type': 'application/json', 'authorization': token})
             self.assertEqual(200, s.json()['code'], msg=s.json())
-            print(s.json())
-
-
-
+            print(str(phone1), s.json()['result']['total'])

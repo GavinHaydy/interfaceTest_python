@@ -1,38 +1,45 @@
+import json
+
 import requests
+
 '''
 整合各种请求
 '''
 
 
 class Util:
-    @staticmethod
-    def post(**kwargs):
-        return requests.post(**kwargs)
+    def __init__(self, **kwargs):
+        self.kwargs = kwargs
+        self.data = json.dumps(kwargs.get("data", {}))
+        self.headers = kwargs.get('headers', {})
+        self.params = kwargs.get('params', {})
+
+    def post(self, url):
+
+        return requests.post(url, data=self.data, headers=self.headers)
+
+    def get(self, url):
+        return requests.get(url, params=self.params)
+
+    def put(self, url):
+        return requests.put(url, data=self.data)
 
     @staticmethod
-    def get(**kwargs):
-        return requests.get(**kwargs)
+    def delete(url):
+        return requests.delete(url)
 
     @staticmethod
-    def put(**kwargs):
-        return requests.put(**kwargs)
+    def options(url):
+        return requests.options(url)
 
-    @staticmethod
-    def delete(**kwargs):
-        return requests.delete(**kwargs)
-
-    @staticmethod
-    def options(**kwargs):
-        return requests.options(**kwargs)
-
-    def main(self, method, **kwargs):
+    def main(self, method, url):
         if method == 'post':
-            return self.post(**kwargs)
+            return self.post(url)
         if method == 'get':
-            return self.get(**kwargs)
+            return self.get(url)
         if method == 'put':
-            return self.put(**kwargs)
+            return self.put(url)
         if method == 'delete':
-            return self.delete(**kwargs)
+            return self.delete(url)
         if method == 'options':
-            return self.options(**kwargs)
+            return self.options(url)

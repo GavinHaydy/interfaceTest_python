@@ -1,3 +1,4 @@
+import csv
 import re
 import json
 from Integrate_request.BaseUtil import Util
@@ -32,9 +33,27 @@ class Swagger3:
                         document = OperationCSV(self.filepath)
                         document.write_value(value_list)
 
+    def get_parameter(self, parameter_path):
+        with open(self.filepath, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                result = self.res['components']['schemas'][row[3]]['properties']
+                x = []
+                for i in result:
+                    x.append((i, result[i]))
+                document = OperationCSV(parameter_path + '/' + row[3] + '.csv')
+                document.write_value(x)
+
 
 """
     from PublicMethod.script_generate import Swagger3
 
     Swagger3('get', 'http://192.192.192.97:8990/v3/api-docs', '/home/bugpz/文档/api.csv').get_api()
+"""
+
+"""
+    from PublicMethod.script_generate import Swagger3
+
+Swagger3('get', 'http://192.192.192.97:8990/v3/api-docs', '/home/bugpz/文档/api.csv')\
+    .get_parameter('/home/bugpz/文档/ttt')
 """

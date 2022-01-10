@@ -29,8 +29,7 @@ class Swagger2:
                     else:
                         result = '{' + self.ref.search(str(request_body)).group(0)
                         parameter = json.loads(result.replace("'", '"'))['$ref'] \
-                            .replace('#/definitions/', '')
-                        # print(parameter)
+                            .replace('#/definitions/', '')                        # print(parameter)
                         value_list.append((put_url, put_method, content_type, parameter))
                     document = OperationCSV(self.filepath)
                     document.write_value(value_list)
@@ -38,16 +37,20 @@ class Swagger2:
     def get_parameter(self, parameter_path):
         with open(self.filepath, 'r') as file:
             reader = csv.reader(file)
+            x = []
             for row in reader:
                 result = self.res['definitions'][row[3]]['properties']
-                x = []
-                for i in result:
-                    x.append((i, result[i]))
-                document = OperationCSV(parameter_path + '/' + row[3] + '.csv')
-                document.write_value(x)
+                x.append((row[3], result))
+            for i in x:     # 遍历生成的api.csv,并生成入参文档
+                v = []
+                value_l = [i[1], 'assert_method', 'assert_value']    # OperationCSV.write_value参数格式
+                v.append(value_l)
+                document = OperationCSV(parameter_path + '/' + i[0] + '.csv')
+                document.write_value(v)
+
 
 """
-    from PublicMethod.script_generate import Swagger3
+    from PublicMethod.script_generate import Swagger2
 
     Swagger2('get', 'http://106.13.171.218/v2/api-docs', '/home/bugpz/文档/api.csv').get_api()
 """
@@ -56,5 +59,5 @@ class Swagger2:
     from PublicMethod.script_generate import Swagger3
 
 Swagger2('get', 'http://106.13.171.218/v2/api-docs', '/home/bugpz/文档/api.csv')\
-    .get_parameter('/home/bugpz/文档/ttt')
+    .get_parameter('/home/bugpz/文档/test')
 """

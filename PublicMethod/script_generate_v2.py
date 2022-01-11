@@ -22,6 +22,7 @@ class Swagger2:
                     value_info = self.res['paths'][api_url][api_method]
                     content_type = value_info['produces']
                     parameters = value_info['parameters']
+                    tags = value_info['tags'][0]
 
                     request_body = parameters[0]['schema']
                     if self.ref.search(str(request_body)) is None:
@@ -30,9 +31,9 @@ class Swagger2:
                         result = '{' + self.ref.search(str(request_body)).group(0)
                         parameter = json.loads(result.replace("'", '"'))['$ref'] \
                             .replace('#/definitions/', '')                        # print(parameter)
-                        value_list.append((put_url, put_method, content_type, parameter))
-                    document = OperationCSV(self.filepath)
-                    document.write_value(value_list)
+                        value_list.append((put_url, put_method, content_type, parameter, tags))
+                        document = OperationCSV(self.filepath)
+                        document.write_value(value_list)
 
     def get_parameter(self, parameter_path):
         with open(self.filepath, 'r') as file:
@@ -43,7 +44,7 @@ class Swagger2:
                 x.append((row[3], result))
             for i in x:     # 遍历生成的api.csv,并生成入参文档
                 v = []
-                value_l = [i[1], 'assert_method', 'assert_value']    # OperationCSV.write_value参数格式
+                value_l = [i[1], 'assertIn', 'assert_value', 'header']    # OperationCSV.write_value参数格式
                 v.append(value_l)
                 document = OperationCSV(parameter_path + '/' + i[0] + '.csv')
                 document.write_value(v)

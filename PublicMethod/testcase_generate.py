@@ -35,25 +35,27 @@ class CreateCase:
                                 header = item[3]
                                 if header == 'header':
                                     script.write(f'\n\ndef test_{api_filename}_{index}():\n'
-                                                 f'\tres = Util(data=json.dumps({item[0]}).replace(" ", ""), '
+                                                 f'\tres = Util(data={item[0]}, '
                                                  f'headers={self.headers})\\\n'
-                                                 f'\t\t.main("{request_method}", "{self.url}/{api}")\n'
-                                                 f'\tassert "{item[2]}" in res.json()\n')
+                                                 f'\t\t.main("{request_method}", "{self.url}{api}")\n'
+                                                 f'\tassert "{item[2]}" in json.dumps(res.json())\n')
                                 else:
                                     script.write(f'\n\ndef test_{api_filename}_{index}():\n'
-                                                 f'\tres = Util(data=json.dumps({item[0]}).replace(" ", ""), '
+                                                 f'\tres = Util(data={item[0]}, '
                                                  f'headers={header})\\\n'
-                                                 f'\t\t.main("{request_method}", "{self.url}/{api}")\n'
-                                                 f'\tassert "{item[2]}" in res.json()\n')
+                                                 f'\t\t.main("{request_method}", "{self.url}{api}")\n'
+                                                 f'\tassert "{item[2]}" in json.dumps(res.json())\n')
                         with open(f'{self.testcase_files_path}/{tag_name}/conftest.py', 'w') as conf:
                             conf.write(f'import os\n'
                                        f'import sys\n'
                                        f"sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),"
                                        f" '..')))\n")
 
-
 """ 
     if __name__ == '__main__':
      CreateCase('http://106.13.171.218', {"Content-Type": "application/json"}, '/home/bugpz/文档/api_test.csv',
                 '/home/bugpz/文档/test', '/home/bugpz/data/interfaceTest_python/Test').create_case()
 """
+if __name__ == '__main__':
+     CreateCase('http://106.13.171.218', {"Content-Type": "application/json"}, '/home/bugpz/文档/api_test.csv',
+                '/home/bugpz/文档/test', '/home/bugpz/data/interfaceTest_python/Test').create_case()

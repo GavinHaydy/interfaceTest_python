@@ -6,16 +6,16 @@ from PublicMethod.csv_operation import OperationCSV
 
 
 class Swagger2:
-    def __init__(self, method, path, filepath):
-        self.filepath = filepath
+    def __init__(self, method, path, api_file):
+        self.filepath = api_file
         self.res = Util().main(method, path).json()
         self.pattern = re.compile(r'parameters')
         self.ref = re.compile('\'\$ref(.*?})')
 
     def get_api(self):
         value_list = []
-        for api_url in self.res['paths']:  # 1
-            for api_method in self.res['paths'][api_url]:  # 1
+        for api_url in self.res['paths']:
+            for api_method in self.res['paths'][api_url]:
                 if self.pattern.search(str(self.res['paths'][api_url])) is not None:
                     put_url = api_url
                     put_method = api_method
@@ -44,7 +44,7 @@ class Swagger2:
                 x.append((row[3], result))
             for i in x:     # 遍历生成的api.csv,并生成入参文档
                 v = []
-                value_l = [i[1], 'assertIn', 'assert_value', 'header']    # OperationCSV.write_value参数格式
+                value_l = [i[1], 'expected_results', 'assert_method', 'actual_results', 'header']    # OperationCSV.write_value参数格式
                 v.append(value_l)
                 document = OperationCSV(parameter_path + '/' + i[0] + '.csv')
                 document.write_value(v)

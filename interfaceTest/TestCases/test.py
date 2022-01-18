@@ -1,8 +1,7 @@
-from Integrate_request.BaseUtil import Util
+from interfaceTest.Integrate_request.BaseUtil import Util
 import random
 import json
 import unittest
-from unittest import skip
 
 url = 'http://106.13.171.218'  # 域名
 register_api = '/api/user/register'  # 注册接口   post

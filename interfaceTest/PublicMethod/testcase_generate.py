@@ -1,6 +1,6 @@
 import csv
 
-from PublicMethod.mkdir import mkdir
+from interfaceTest.PublicMethod.mkdir import mkdir
 
 
 class CreateCase:

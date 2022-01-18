@@ -1,8 +1,8 @@
 import csv
 import re
 import json
-from Integrate_request.BaseUtil import Util
-from PublicMethod.csv_operation import OperationCSV
+from interfaceTest.Integrate_request.BaseUtil import Util
+from interfaceTest.PublicMethod.csv_operation import OperationCSV
 
 
 class Swagger3:

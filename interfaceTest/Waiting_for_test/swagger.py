@@ -1,6 +1,6 @@
 import json
 
-from Integrate_request.BaseUtil import Util
+from interfaceTest.Integrate_request.BaseUtil import Util
 import re
 res = Util()
 pattern = re.compile(r'requestBody')

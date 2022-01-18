@@ -1,7 +1,7 @@
 import os
-from PublicMethod.script_generate_v2 import Swagger2
-from PublicMethod.testcase_generate import CreateCase
-from PublicMethod.run_script import Script
+from interfaceTest.PublicMethod.script_generate_v2 import Swagger2
+from interfaceTest.PublicMethod.testcase_generate import CreateCase
+from interfaceTest.PublicMethod.run_script import Script
 from time import sleep
 
 

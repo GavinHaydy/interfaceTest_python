@@ -4,6 +4,12 @@ import re
 
 class Script:
     def __init__(self, path, file_name, file_name_1):
+        """
+
+        :param path: cases_path
+        :param file_name:
+        :param file_name_1:
+        """
         self.path = path
         self.file_name = file_name
         self.file_name_1 = file_name_1
@@ -50,7 +56,3 @@ class Script:
                     api_path.append(x1)
                     if par.match(x1):
                         file_testcase.write(f'from {self.path}.{j1} import {x1}\n')
-
-
-if __name__ == '__main__':
-    Script('Test', 'sc.py', 'sc1.py')

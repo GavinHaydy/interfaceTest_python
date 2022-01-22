@@ -1,6 +1,8 @@
-# interfaceTest_python
-python+jenkins持续集成模板
+# interfaceTest
+  接口自动化测试库
 
+# 注意事项
+ 需提前下载allure2并配置路径
 #requests官方文档   
     https://docs.python-requests.org/zh_CN/latest/
   
@@ -22,4 +24,9 @@ python+jenkins持续集成模板
 └─ run.py # 运行文件
 ```
 
- 
+ # 使用方法
+```python
+from interfaceTest.PublicMethod.run_testcase import BeforeRun, Run
+BeforeRun('url', 'api', '接口文件.csv', '参数文档存储路径', '用例路径')
+Run('用例路径', '脚本1.py', '脚本2.py', 'path里的python名') #RUN 写完参数后运行
+```

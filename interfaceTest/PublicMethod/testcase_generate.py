@@ -28,7 +28,8 @@ class CreateCase:
                         mkdir(self.testcase_files_path+'/', tag_name)
                         with open(f'{self.testcase_files_path}/{tag_name}/{api_filename}_testcase.py', 'w') as script:  # 创建、编写用例脚本
                             index = 0
-                            script.write(f'from interfaceTest.Integrate_request.BaseUtil import Util\n'
+                            script.write(f'#--coding:GBK --\n'
+                                         f'from interfaceTest.Integrate_request.BaseUtil import Util\n'
                                          f'import json\n')
                             for item in reader_body:
                                 index = index+1

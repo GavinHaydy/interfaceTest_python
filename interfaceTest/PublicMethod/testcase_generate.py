@@ -10,7 +10,7 @@ class CreateCase:
         self.api_file_path = api_file_path
         self.parameter_folder_path = parameter_folder_path
         self.testcase_files_path = testcase_files_path
-        self.report_type = report_type
+        self.report_type = report_type  # 测试报告类型[allure,HtmlTestRunner]默认allure
 
     def create_case(self):
         with open(self.api_file_path, 'r') as file:     # Api_file

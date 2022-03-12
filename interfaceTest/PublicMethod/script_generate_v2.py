@@ -6,9 +6,15 @@ from interfaceTest.PublicMethod.csv_operation import OperationCSV
 
 
 class Swagger2:
-    def __init__(self, method, path, api_file):
+    def __init__(self, method, url, api_file):
+        """
+
+        :param method: 请求方式
+        :param url: swagger接口地址 ip/version/api-docs
+        :param api_file: path+file_name.csv
+        """
         self.filepath = api_file
-        self.res = Util().main(method, path).json()
+        self.res = Util().main(method, url).json()
         self.pattern = re.compile(r'parameters')
         self.ref = re.compile('\'\$ref(.*?})')
 
@@ -36,6 +42,11 @@ class Swagger2:
                         document.write_value(value_list)
 
     def get_parameter(self, parameter_path):
+        """
+
+        :param parameter_path: 参数文件存放路径
+        :return:
+        """
         with open(self.filepath, 'r') as file:
             reader = csv.reader(file)
             x = []
@@ -51,14 +62,7 @@ class Swagger2:
 
 
 """
-    from PublicMethod.script_generate import Swagger2
-
-    Swagger2('get', 'http://106.13.171.218/v2/api-docs', '/home/bugpz/文档/api.csv').get_api()
-"""
-
-"""
-    from PublicMethod.script_generate import Swagger3
-
-Swagger2('get', 'http://106.13.171.218/v2/api-docs', '/home/bugpz/文档/api.csv')\
+    Swagger2('get', 'http://ip/v2/api-docs', '/home/bugpz/文档/api.csv').get_api()
+    Swagger2('get', 'http://ip/v2/api-docs', '/home/bugpz/文档/api.csv')\
     .get_parameter('/home/bugpz/文档/test')
 """

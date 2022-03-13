@@ -107,7 +107,7 @@ class CreateCase:
                                                      f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
                                                      f'\t\tself.assertIn("{expected_results}", json.dumps(self.res.json())).encode().decode("unicode_escape")\n')
                                     else:
-                                        script.write(f'\n\ndef test_{api_filename}_{index}():\n'
+                                        script.write(f'\n\ndef test_{api_filename}_{index}(self):\n'
                                                      f'\tres = Util(data={request_body}, '
                                                      f'headers={self.headers})\\\n'
                                                      f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
@@ -115,13 +115,13 @@ class CreateCase:
                                                      )
                                 else:
                                     if actual_results == 'actual_results':
-                                        script.write(f'\n\ndef test_{api_filename}_{index}():\n'
+                                        script.write(f'\n\ndef test_{api_filename}_{index}(self):\n'
                                                      f'\tres = Util(data={request_body}, '
                                                      f'headers={header})\\\n'
                                                      f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
                                                      f'\t\tself.assertIn("{expected_results}", json.dumps(self.res.json())).encode().decode("unicode_escape")\n')
                                     else:
-                                        script.write(f'\n\ndef test_{api_filename}_{index}():\n'
+                                        script.write(f'\n\ndef test_{api_filename}_{index}(self):\n'
                                                      f'\tres = Util(data={request_body}, '
                                                      f'headers={header})\\\n'
                                                      f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'

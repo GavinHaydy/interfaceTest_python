@@ -4,16 +4,25 @@ from interfaceTest.PublicMethod.mkdir import mkdir
 
 
 class CreateCase:
-    def __init__(self, url, headers, api_file_path, parameter_folder_path, testcase_files_path, report_type='allure'):
+    def __init__(self, url, headers, api_file_name, parameter_folder_path, testcase_files_path, report_type='a'):
+        """
+
+        :param url: ip or domain_name
+        :param headers: request_header
+        :param api_file_name:   path+xxx.csv
+        :param parameter_folder_path: 参数文档文件夹路径
+        :param testcase_files_path:  测试用例存放路径
+        :param report_type: 报告类型  a或h   allure、HtmlTestRunner
+        """
         self.url = url  # API_URL
         self.headers = headers
-        self.api_file_path = api_file_path
+        self.api_file_name = api_file_name
         self.parameter_folder_path = parameter_folder_path
         self.testcase_files_path = testcase_files_path
         self.report_type = report_type  # 测试报告类型[allure,HtmlTestRunner]默认allure
 
     def create_case(self):
-        with open(self.api_file_path, 'r') as file:     # Api_file
+        with open(self.api_file_name, 'r') as file:     # Api_file
             reader_api = csv.reader(file)
             for i in reader_api:
                 api = i[0]
@@ -24,7 +33,7 @@ class CreateCase:
                 tag_name = i[4]
                 with open(f'{self.parameter_folder_path}/{body}.csv', 'r') as parameter_file:  # 打开DTO(参数文档)
                     reader_body = csv.reader(parameter_file)
-                    if self.report_type == 'allure':
+                    if self.report_type == 'a':
                         mkdir(self.testcase_files_path+'/', tag_name)
                         with open(f'{self.testcase_files_path}/{tag_name}/{api_filename}_testcase.py', 'w') as script:  # 创建、编写用例脚本
                             index = 0

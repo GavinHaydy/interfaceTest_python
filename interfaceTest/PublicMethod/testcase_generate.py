@@ -35,7 +35,8 @@ class CreateCase:
                     reader_body = csv.reader(parameter_file)
                     if self.report_type == 'a':
                         mkdir(self.testcase_files_path+'/', tag_name)
-                        with open(f'{self.testcase_files_path}/{tag_name}/{api_filename}_testcase.py', 'w') as script:  # 创建、编写用例脚本
+                        with open(f'{self.testcase_files_path}/{tag_name}/{api_filename}_testcase.py', 'w')\
+                                as script:  # 创建、编写用例脚本
                             index = 0
                             script.write(f'#--coding:GBK --\n'
                                          f'from interfaceTest.Integrate_request.BaseUtil import Util\n'
@@ -81,9 +82,56 @@ class CreateCase:
                                        f'import sys\n'
                                        f"sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),"
                                        f" '..')))\n")
+                    elif self.report_type == 'h':
+                        mkdir(self.testcase_files_path + '/', tag_name)
+                        with open(f'{self.testcase_files_path}/{tag_name}/{api_filename}_testcase.py',
+                                  'w') as script:  # 创建、编写用例脚本
+                            index = 0
+                            script.write(f'#--coding:GBK --\n'
+                                         f'from interfaceTest.Integrate_request.BaseUtil import Util\n'
+                                         f'import json\n'
+                                         f'import unittest\n\n'
+                                         f'class {api_filename}(unittest.TestCase):\n')
+                            for item in reader_body:
+                                index = index + 1
+                                request_body = item[0]
+                                expected_results = item[1]
+                                assert_method = item[2]
+                                actual_results = item[3]
+                                header = item[4]
+                                if header == 'header':
+                                    if actual_results == 'actual_results':
+                                        script.write(f'\tdef test_{api_filename}_{index}(self):\n'
+                                                     f'\t\tself.res = Util(data={request_body}, '
+                                                     f'\theaders={self.headers})\\\n'
+                                                     f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
+                                                     f'\t\tself.assertIn("{expected_results}", json.dumps(self.res.json())).encode().decode("unicode_escape")\n')
+                                    else:
+                                        script.write(f'\n\ndef test_{api_filename}_{index}():\n'
+                                                     f'\tres = Util(data={request_body}, '
+                                                     f'headers={self.headers})\\\n'
+                                                     f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
+                                                     f'\t\tself.{assert_method}("{expected_results}","{actual_results}")\n'
+                                                     )
+                                else:
+                                    if actual_results == 'actual_results':
+                                        script.write(f'\n\ndef test_{api_filename}_{index}():\n'
+                                                     f'\tres = Util(data={request_body}, '
+                                                     f'headers={header})\\\n'
+                                                     f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
+                                                     f'\t\tself.assertIn("{expected_results}", json.dumps(self.res.json())).encode().decode("unicode_escape")\n')
+                                    else:
+                                        script.write(f'\n\ndef test_{api_filename}_{index}():\n'
+                                                     f'\tres = Util(data={request_body}, '
+                                                     f'headers={header})\\\n'
+                                                     f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
+                                                     f'\t\tself.{assert_method}("{expected_results}","{actual_results}")\n'
+                                                     )
+
+
 
     """ 
         if __name__ == '__main__':
-         CreateCase('http://106.13.171.218', {"Content-Type": "application/json"}, '/home/bugpz/文档/api_test.csv',
+         CreateCase('http://ip', {"Content-Type": "application/json"}, '/home/bugpz/文档/api_test.csv',
                     '/home/bugpz/文档/test', '/home/bugpz/data/interfaceTest_python/Test').create_case()
     """

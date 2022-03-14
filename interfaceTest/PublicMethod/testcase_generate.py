@@ -127,11 +127,5 @@ class CreateCase:
                                                      f'\t\t\t.main("{request_method}", "{self.url}{api}")\n'
                                                      f'\t\tself.{assert_method}("{expected_results}","{actual_results}")\n'
                                                      )
-
-
-
-    """ 
-        if __name__ == '__main__':
-         CreateCase('http://ip', {"Content-Type": "application/json"}, '/home/bugpz/文档/api_test.csv',
-                    '/home/bugpz/文档/test', '/home/bugpz/data/interfaceTest_python/Test').create_case()
-    """
+                    else:
+                        raise ValueError(f'parameter report_type must be "a" or "h",not {self.report_type}')

@@ -87,7 +87,7 @@ class Script:
             testcase_script.write(f'import unittest\n'
                                   f'from HTMLTestRunner.HTMLTestRunner import HTMLTestRunner\n')
             for item in data:
-                testcase_script.write(f'from interfaceTest.{json.loads(item)["path"]} import {json.loads(item)["class_name"]}\n')
+                testcase_script.write(f'from {json.loads(item)["path"]} import {json.loads(item)["class_name"]}\n')
             testcase_script.write(f'\n\ntestsuite = unittest.TestSuite()\n')
             for item in data:
                 testcase_script.write(f'testsuite.addTest(unittest.TestLoader()'
